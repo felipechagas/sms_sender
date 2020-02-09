@@ -13,8 +13,7 @@ services:
       - ./:/var/www/html:delegated
       - ./.env:/var/www/html/.env:delegated,ro
     depends_on:
-      db:
-        condition: service_healthy
+      - db
 
   db:
     image: mysql:5.7
