@@ -1,0 +1,43 @@
+version: "2.4"
+
+services:
+  app:
+    build: .
+    command: 'sh -c "echo ''Starting app...'' && php -S 0.0.0.0:8080 -t public"'
+    image: peedrofl/lumen:latest-slim
+    ports:
+      - 8080:8080
+    networks:
+      - net
+    volumes:
+      - ./:/var/www/html:delegated
+      - ./.env:/var/www/html/.env:delegated,ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-lumen}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-mysql}
+    ports:
+      - 3336:3306
+    networks:
+      - net
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-p",
+          "${MYSQL_ROOT_PASSWORD:-mysql}",
+        ]
+      timeout: 20s
+      retries: 10
+
+networks:
+  net:
