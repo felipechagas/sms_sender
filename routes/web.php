@@ -11,6 +11,9 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->get('/restaurants', 'RestaurantController@index');
+$router->post('/restaurants', 'RestaurantController@store');
+$router->get('/restaurants/{restaurant}', 'RestaurantController@show');
+$router->put('/restaurants/{restaurant}', 'RestaurantController@update');
+$router->patch('/restaurants/{restaurant}', 'RestaurantController@update');
+$router->delete('/restaurants/{restaurant}', 'RestaurantController@destroy');
