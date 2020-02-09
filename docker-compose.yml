@@ -24,19 +24,6 @@ services:
       - 3336:3306
     networks:
       - net
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "-h",
-          "localhost",
-          "-p",
-          "${MYSQL_ROOT_PASSWORD:-mysql}",
-        ]
-      timeout: 20s
-      retries: 10
 
 networks:
   net:
