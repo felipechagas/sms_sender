@@ -11,9 +11,9 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Restaurant::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'name' => $faker->company,
+        'delivery_time' => $faker->randomNumber(4, false),
     ];
 });
