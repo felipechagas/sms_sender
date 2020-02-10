@@ -116,7 +116,19 @@ class RestaurantTest extends TestCase
      * /restaurants/id [DELETE]
      */
     public function testShouldDeleteRestaurant(){
-
+        $this->delete("restaurants/10", [], []);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(
+            ['data' =>
+                [
+                    'id',
+                    'name',
+                    'delivery_time',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
     }
 
 }
