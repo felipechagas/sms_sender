@@ -68,7 +68,48 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PUT]
      */
     public function testShouldUpdateRestaurant(){
+        $parameters = [
+            'name' => 'Test',
+            'delivery_time' => 1000,
+        ];
 
+        $this->put("products/1", $parameters, []);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(
+            ['data' =>
+                [
+                    'id',
+                    'name',
+                    'delivery_time',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
+    }
+
+    /**
+     * /restaurants/id [PATCH]
+     */
+    public function testShouldUpdateRestaurant(){
+        $parameters = [
+            'name' => 'Test',
+            'delivery_time' => 1000,
+        ];
+
+        $this->patch("products/1", $parameters, []);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(
+            ['data' =>
+                [
+                    'id',
+                    'name',
+                    'delivery_time',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
     }
 
     /**
