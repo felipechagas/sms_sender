@@ -50,7 +50,7 @@ class RestaurantTest extends TestCase
         ];
 
         $this->post("restaurants", $parameters, []);
-        $this->seeStatusCode(200);
+        $this->seeStatusCode(201);
         $this->seeJsonStructure(
             ['data' =>
                 [
