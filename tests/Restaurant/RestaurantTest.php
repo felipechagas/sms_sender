@@ -282,6 +282,7 @@ class RestaurantTest extends TestCase
 
     /**
      * /restaurants/id [DELETE]
+     * 200
      */
     public function testShouldDeleteRestaurant()
     {
@@ -297,6 +298,21 @@ class RestaurantTest extends TestCase
                     'created_at',
                     'updated_at'
                 ]
+            ]
+        );
+    }
+
+    /**
+     * /restaurants/id [DELETE]
+     * 404
+     */
+    public function testShouldNotDeleteNotFoundRestaurant()
+    {
+        $this->delete("restaurants/51", [], []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+        $this->seeJsonStructure(
+            [
+                'error'
             ]
         );
     }
