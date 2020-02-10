@@ -38,7 +38,16 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'name' => 'required|max:255',
+            'delivery_time' => 'required|max:5',
+        ];
 
+        $this->validate($request, $rules);
+
+        $restaurant = Restaurant::create($request->all());
+
+        return $this->successResponse($restaurant, Response::HTTP_CREATED);
     }
 
     /**
