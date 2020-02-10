@@ -56,7 +56,9 @@ class RestaurantController extends Controller
      */
     public function show($restaurant)
     {
+        $restaurant = Restaurant::findOrFail($restaurant);
 
+        return $this->successResponse($restaurant);
     }
 
     /**
