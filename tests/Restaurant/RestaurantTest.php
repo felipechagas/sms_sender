@@ -25,7 +25,19 @@ class RestaurantTest extends TestCase
      * /restaurants/id [GET]
      */
     public function testShouldReturnRestaurant(){
-
+        $this->get("restaurants/1", []);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(
+            ['data' =>
+                [
+                    'id',
+                    'name',
+                    'delivery_time',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
     }
 
     /**
