@@ -67,7 +67,7 @@ class RestaurantTest extends TestCase
     /**
      * /restaurants/id [PUT]
      */
-    public function testShouldUpdateRestaurant(){
+    public function testShouldPutUpdateRestaurant(){
         $parameters = [
             'name' => 'Test',
             'delivery_time' => 1000,
@@ -91,7 +91,7 @@ class RestaurantTest extends TestCase
     /**
      * /restaurants/id [PATCH]
      */
-    public function testShouldUpdateRestaurant(){
+    public function testShouldPatchUpdateRestaurant(){
         $parameters = [
             'name' => 'Test',
             'delivery_time' => 1000,
