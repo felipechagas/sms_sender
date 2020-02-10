@@ -93,6 +93,10 @@ class RestaurantController extends Controller
      */
     public function destroy($restaurant)
     {
+        $restaurant = Restaurant::findOrFail($restaurant);
 
+        $restaurant->delete();
+
+        return $this->successResponse($restaurant);
     }
 }
