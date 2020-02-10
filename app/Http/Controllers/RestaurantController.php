@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Restaurant;
 
+use Illuminate\Http\Request;
+
 class RestaurantController extends Controller
 {
     /**
@@ -22,7 +24,7 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        
+
     }
 
     /**
@@ -31,7 +33,7 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -40,7 +42,7 @@ class RestaurantController extends Controller
      */
     public function show($restaurant)
     {
-        
+
     }
 
     /**
@@ -49,7 +51,7 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $restaurant)
     {
-        
+
     }
 
     /**
@@ -58,6 +60,6 @@ class RestaurantController extends Controller
      */
     public function destroy($restaurant)
     {
-        
+
     }
 }
