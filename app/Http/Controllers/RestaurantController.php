@@ -68,8 +68,8 @@ class RestaurantController extends Controller
     public function update(Request $request, $restaurant)
     {
         $rules = [
-            'name' => 'required|max:255',
-            'delivery_time' => 'required|max:5',
+            'name' => 'max:255',
+            'delivery_time' => 'max:5',
         ];
 
         $this->validate($request, $rules);
