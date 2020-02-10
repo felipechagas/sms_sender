@@ -242,6 +242,23 @@ class RestaurantTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /restaurants/id [PATCH]
+     * 422
+     */
+    public function testShouldNotPatchEmptyChanges()
+    {
+        $parameters = [];
+
+        $this->patch("restaurants/1", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
     /**
      * /restaurants/id [DELETE]
      */
