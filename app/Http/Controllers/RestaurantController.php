@@ -27,9 +27,9 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        $authors = Restaurant::all();
+        $restaurants = Restaurant::all();
 
-        return $this->successResponse($authors);
+        return $this->successResponse($restaurants);
     }
 
     /**
