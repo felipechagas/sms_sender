@@ -164,6 +164,23 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PUT]
      * 422
      */
+    public function testShouldNotPutEmptyChanges()
+    {
+        $parameters = [];
+
+        $this->put("restaurants/1", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
+
+    /**
+     * /restaurants/id [PUT]
+     * 422
+     */
     public function testShouldNotPutUpdateInvalidRestaurant()
     {
         $parameters = [
