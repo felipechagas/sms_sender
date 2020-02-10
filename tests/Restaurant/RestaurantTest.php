@@ -98,7 +98,7 @@ class RestaurantTest extends TestCase
      * /restaurants [POST]
      * 422
      */
-    public function testShouldNotProcessEntity()
+    public function testShouldNotCreateInvalidRestaurant()
     {
         $parameters = [
             'delivery_time' => 1000,
@@ -115,6 +115,7 @@ class RestaurantTest extends TestCase
 
     /**
      * /restaurants/id [PUT]
+     * 200
      */
     public function testShouldPutUpdateRestaurant()
     {
@@ -135,6 +136,26 @@ class RestaurantTest extends TestCase
                     'created_at',
                     'updated_at'
                 ]
+            ]
+        );
+    }
+
+    /**
+     * /restaurants/id [PUT]
+     * 422
+     */
+    public function testShouldNotPutUpdateInvalidRestaurant()
+    {
+        $parameters = [
+            'name' => 'Test',
+            'delivery_time' => 1000000,
+        ];
+
+        $this->put("restaurants/1", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error'
             ]
         );
     }
