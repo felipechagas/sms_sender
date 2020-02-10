@@ -10,12 +10,15 @@ class RestaurantTest extends TestCase
 
     /**
      * /restaurants [GET]
+     * 200
      */
-    public function testShouldReturnAllRestaurants(){
+    public function testShouldReturnAllRestaurants()
+    {
         $this->get("restaurants", []);
         $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure([
-            'data' => ['*' =>
+            'data' => [
+                '*' =>
                 [
                     'id',
                     'name',
@@ -29,12 +32,15 @@ class RestaurantTest extends TestCase
 
     /**
      * /restaurants/id [GET]
+     * 200
      */
-    public function testShouldReturnRestaurant(){
+    public function testShouldReturnRestaurant()
+    {
         $this->get("restaurants/1", []);
         $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure(
-            ['data' =>
+            [
+                'data' =>
                 [
                     'id',
                     'name',
@@ -47,9 +53,26 @@ class RestaurantTest extends TestCase
     }
 
     /**
-     * /restaurants [POST]
+     * /restaurants/id [GET]
+     * 404
      */
-    public function testShouldCreateRestaurant(){
+    public function testShouldReturnNotFoundError()
+    {
+        $this->get("restaurants/51", []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
+
+    /**
+     * /restaurants [POST]
+     * 200
+     */
+    public function testShouldCreateRestaurant()
+    {
         $parameters = [
             'name' => 'Test',
             'delivery_time' => 1000,
@@ -58,7 +81,8 @@ class RestaurantTest extends TestCase
         $this->post("restaurants", $parameters, []);
         $this->seeStatusCode(Response::HTTP_CREATED);
         $this->seeJsonStructure(
-            ['data' =>
+            [
+                'data' =>
                 [
                     'id',
                     'name',
@@ -73,7 +97,8 @@ class RestaurantTest extends TestCase
     /**
      * /restaurants/id [PUT]
      */
-    public function testShouldPutUpdateRestaurant(){
+    public function testShouldPutUpdateRestaurant()
+    {
         $parameters = [
             'name' => 'Test',
             'delivery_time' => 1000,
@@ -82,7 +107,8 @@ class RestaurantTest extends TestCase
         $this->put("restaurants/1", $parameters, []);
         $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure(
-            ['data' =>
+            [
+                'data' =>
                 [
                     'id',
                     'name',
@@ -97,7 +123,8 @@ class RestaurantTest extends TestCase
     /**
      * /restaurants/id [PATCH]
      */
-    public function testShouldPatchUpdateRestaurant(){
+    public function testShouldPatchUpdateRestaurant()
+    {
         $parameters = [
             'name' => 'Test',
             'delivery_time' => 1500,
@@ -106,7 +133,8 @@ class RestaurantTest extends TestCase
         $this->patch("restaurants/1", $parameters, []);
         $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure(
-            ['data' =>
+            [
+                'data' =>
                 [
                     'id',
                     'name',
@@ -121,11 +149,13 @@ class RestaurantTest extends TestCase
     /**
      * /restaurants/id [DELETE]
      */
-    public function testShouldDeleteRestaurant(){
+    public function testShouldDeleteRestaurant()
+    {
         $this->delete("restaurants/1", [], []);
         $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure(
-            ['data' =>
+            [
+                'data' =>
                 [
                     'id',
                     'name',
@@ -136,5 +166,4 @@ class RestaurantTest extends TestCase
             ]
         );
     }
-
 }
