@@ -47,6 +47,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof HttpException) {
+            $code = $exception->getStatusCode();
+            $message = Response::$statusTexts[$code];
+
+            return $this->errorResponse($message, $code);
+        }
+
         return $this->errorResponse('Unexpected error. Try later', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
