@@ -1,7 +1,12 @@
 <?php
 
+use Laravel\Lumen\Testing\DatabaseMigrations;
+use Laravel\Lumen\Testing\DatabaseTransactions;
+
 class RestaurantTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /**
      * /restaurants [GET]
      */
@@ -116,7 +121,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [DELETE]
      */
     public function testShouldDeleteRestaurant(){
-        $this->delete("restaurants/10", [], []);
+        $this->delete("restaurants/1", [], []);
         $this->seeStatusCode(200);
         $this->seeJsonStructure(
             ['data' =>
