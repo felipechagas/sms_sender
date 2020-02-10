@@ -73,7 +73,7 @@ class RestaurantTest extends TestCase
             'delivery_time' => 1000,
         ];
 
-        $this->put("products/1", $parameters, []);
+        $this->put("restaurants/1", $parameters, []);
         $this->seeStatusCode(200);
         $this->seeJsonStructure(
             ['data' =>
@@ -94,10 +94,10 @@ class RestaurantTest extends TestCase
     public function testShouldPatchUpdateRestaurant(){
         $parameters = [
             'name' => 'Test',
-            'delivery_time' => 1000,
+            'delivery_time' => 1500,
         ];
 
-        $this->patch("products/1", $parameters, []);
+        $this->patch("restaurants/1", $parameters, []);
         $this->seeStatusCode(200);
         $this->seeJsonStructure(
             ['data' =>
