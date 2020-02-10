@@ -224,6 +224,25 @@ class RestaurantTest extends TestCase
     }
 
     /**
+     * /restaurants/id [PATCH]
+     * 404
+     */
+    public function testShouldNotPatchNotFoundRestaurant()
+    {
+        $parameters = [
+            'name' => 'Test',
+            'delivery_time' => 1000,
+        ];
+
+        $this->patch("restaurants/51", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
+    /**
      * /restaurants/id [DELETE]
      */
     public function testShouldDeleteRestaurant()
