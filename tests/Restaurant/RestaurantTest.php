@@ -44,7 +44,24 @@ class RestaurantTest extends TestCase
      * /restaurants [POST]
      */
     public function testShouldCreateRestaurant(){
+        $parameters = [
+            'name' => 'Test',
+            'delivery_time' => 1000,
+        ];
 
+        $this->post("restaurants", $parameters, []);
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure(
+            ['data' =>
+                [
+                    'id',
+                    'name',
+                    'delivery_time',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
     }
 
     /**
