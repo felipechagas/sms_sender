@@ -56,7 +56,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [GET]
      * 404
      */
-    public function testShouldReturnNotFoundError()
+    public function testShouldNotGetNotFoundRestaurant()
     {
         $this->get("restaurants/51", []);
         $this->seeStatusCode(Response::HTTP_NOT_FOUND);
@@ -136,6 +136,26 @@ class RestaurantTest extends TestCase
                     'created_at',
                     'updated_at'
                 ]
+            ]
+        );
+    }
+
+    /**
+     * /restaurants/id [PUT]
+     * 404
+     */
+    public function testShouldNotPutNotFoundRestaurant()
+    {
+        $parameters = [
+            'name' => 'Test',
+            'delivery_time' => 1000,
+        ];
+
+        $this->put("restaurants/51", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+        $this->seeJsonStructure(
+            [
+                'error'
             ]
         );
     }
