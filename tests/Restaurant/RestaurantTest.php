@@ -2,6 +2,7 @@
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 
 class RestaurantTest extends TestCase
 {
@@ -12,7 +13,7 @@ class RestaurantTest extends TestCase
      */
     public function testShouldReturnAllRestaurants(){
         $this->get("restaurants", []);
-        $this->seeStatusCode(200);
+        $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure([
             'data' => ['*' =>
                 [
@@ -31,7 +32,7 @@ class RestaurantTest extends TestCase
      */
     public function testShouldReturnRestaurant(){
         $this->get("restaurants/1", []);
-        $this->seeStatusCode(200);
+        $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure(
             ['data' =>
                 [
@@ -55,7 +56,7 @@ class RestaurantTest extends TestCase
         ];
 
         $this->post("restaurants", $parameters, []);
-        $this->seeStatusCode(201);
+        $this->seeStatusCode(Response::HTTP_CREATED);
         $this->seeJsonStructure(
             ['data' =>
                 [
@@ -79,7 +80,7 @@ class RestaurantTest extends TestCase
         ];
 
         $this->put("restaurants/1", $parameters, []);
-        $this->seeStatusCode(200);
+        $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure(
             ['data' =>
                 [
@@ -103,7 +104,7 @@ class RestaurantTest extends TestCase
         ];
 
         $this->patch("restaurants/1", $parameters, []);
-        $this->seeStatusCode(200);
+        $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure(
             ['data' =>
                 [
@@ -122,7 +123,7 @@ class RestaurantTest extends TestCase
      */
     public function testShouldDeleteRestaurant(){
         $this->delete("restaurants/1", [], []);
-        $this->seeStatusCode(200);
+        $this->seeStatusCode(Response::HTTP_OK);
         $this->seeJsonStructure(
             ['data' =>
                 [
