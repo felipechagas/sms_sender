@@ -69,7 +69,7 @@ class RestaurantTest extends TestCase
 
     /**
      * /restaurants [POST]
-     * 200
+     * 201
      */
     public function testShouldCreateRestaurant()
     {
@@ -90,6 +90,25 @@ class RestaurantTest extends TestCase
                     'created_at',
                     'updated_at'
                 ]
+            ]
+        );
+    }
+
+    /**
+     * /restaurants [POST]
+     * 422
+     */
+    public function testShouldNotProcessEntity()
+    {
+        $parameters = [
+            'delivery_time' => 1000,
+        ];
+
+        $this->post("restaurants", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error'
             ]
         );
     }
