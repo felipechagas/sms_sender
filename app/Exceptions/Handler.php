@@ -60,6 +60,12 @@ class Handler extends ExceptionHandler
             return $this->errorResponse("Does not exist any instance of {$model} with the given id", Response::HTTP_NOT_FOUND);
         }
 
+        if ($exception instanceof ValidationException) {
+            $errors = $exception->validator->errors()->getMessages();
+
+            return $this->errorResponse($errors, Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         return $this->errorResponse('Unexpected error. Try later', Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
