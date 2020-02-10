@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Restaurant;
-
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class RestaurantController extends Controller
 {
