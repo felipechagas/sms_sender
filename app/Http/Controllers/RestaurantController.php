@@ -9,6 +9,8 @@ use Illuminate\Http\Response;
 
 class RestaurantController extends Controller
 {
+    use ApiResponser;
+
     /**
      * Create a new RestaurantController instance.
      *
@@ -25,7 +27,9 @@ class RestaurantController extends Controller
      */
     public function index()
     {
+        $authors = Restaurant::all();
 
+        return $this->successResponse($authors);
     }
 
     /**
