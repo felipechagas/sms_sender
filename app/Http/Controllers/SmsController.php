@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Restaurant;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Services\SmsServiceInterface;
 
 class SmsController extends Controller
 {
     use ApiResponser;
 
+    protected $sms;
+
     /**
-     * Create a new RestaurantController instance.
+     * Create a new SmsController instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(SmsServiceInterface $sms)
     {
-        //
+        $this->sms = $sms;
     }
 
     /**
@@ -27,6 +29,6 @@ class SmsController extends Controller
      */
     public function send()
     {
-        return $this->successResponse([]);
+        $this->sms->send();
     }
 }
