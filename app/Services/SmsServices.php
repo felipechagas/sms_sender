@@ -30,7 +30,7 @@ class SmsService implements SmsServiceInterface
      * @param
      * @return
      */
-    public function send()
+    public function send($restaurant_id, $phone_number)
     {
         return $this->successResponse(array('status' => 'sent'));
     }
