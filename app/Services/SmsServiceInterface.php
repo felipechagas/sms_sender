@@ -9,5 +9,5 @@ interface SmsServiceInterface
      *
      * @param int
      */
-    public function send();
+    public function send($restaurant_id, $phone_number);
 }
