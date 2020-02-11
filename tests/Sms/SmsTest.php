@@ -21,6 +21,14 @@ class SmsTest extends TestCase
 
         $this->post("/sms/send", $parameters, []);
         $this->seeStatusCode(Response::HTTP_OK);
+        $this->seeJsonStructure(
+            [
+                'data' =>
+                [
+                    'status',
+                ]
+            ]
+        );
     }
 
     /**
