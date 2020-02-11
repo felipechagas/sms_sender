@@ -12,7 +12,7 @@ class SmsTest extends TestCase
      * /restaurants [GET]
      * 200
      */
-    public function testShouldReturnAllRestaurants()
+    public function testShouldSendAnSms()
     {
         $this->post("/sms/send", []);
         $this->seeStatusCode(Response::HTTP_OK);
