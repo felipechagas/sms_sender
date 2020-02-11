@@ -36,6 +36,8 @@ class SmsController extends Controller
 
         $this->validate($request, $rules);
 
-        return $this->sms->send($request->all());
+        $data = $request->all();
+
+        return $this->sms->send($data['restaurant_id'], $data['phone_number']);
     }
 }
