@@ -35,5 +35,10 @@ class SmsTest extends TestCase
 
         $this->post("/sms/send", $parameters, []);
         $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
     }
 }
