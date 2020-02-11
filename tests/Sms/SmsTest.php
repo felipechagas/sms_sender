@@ -9,12 +9,17 @@ class SmsTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * /restaurants [GET]
+     * /sms/send [GET]
      * 200
      */
     public function testShouldSendAnSms()
     {
-        $this->post("/sms/send", []);
+        $parameters = [
+            'restaurant_id' => 1,
+            'phone_number' => '+17609794553',
+        ];
+
+        $this->post("/sms/send", $parameters, []);
         $this->seeStatusCode(Response::HTTP_OK);
     }
 }
