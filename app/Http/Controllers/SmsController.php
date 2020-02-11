@@ -27,8 +27,15 @@ class SmsController extends Controller
      * Send sms
      * @return Illuminate\Http\Response
      */
-    public function send()
+    public function send(Request $request)
     {
-        return $this->sms->send();
+        $rules = [
+            'restaurant_id' => 'required',
+            'phone_number' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        return $this->sms->send($request->all());
     }
 }
