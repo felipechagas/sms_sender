@@ -32,6 +32,6 @@ class SmsService implements SmsServiceInterface
      */
     public function send()
     {
-        return $this->successResponse([]);
+        return $this->successResponse(array('status' => 'sent'));
     }
 }
