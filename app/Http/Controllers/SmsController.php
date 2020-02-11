@@ -29,6 +29,6 @@ class SmsController extends Controller
      */
     public function send()
     {
-        $this->sms->send();
+        return $this->sms->send();
     }
 }
