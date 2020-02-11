@@ -9,7 +9,7 @@ class SmsTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * /sms/send [GET]
+     * /sms/send [POST]
      * 200
      */
     public function testShouldSendAnSms()
@@ -21,5 +21,19 @@ class SmsTest extends TestCase
 
         $this->post("/sms/send", $parameters, []);
         $this->seeStatusCode(Response::HTTP_OK);
+    }
+
+    /**
+     * /sms/send [POST]
+     * 422
+     */
+    public function testShouldNotSendAnSmsWithInvalidData()
+    {
+        $parameters = [
+            'phone_number' => '+17609794553',
+        ];
+
+        $this->post("/sms/send", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
