@@ -15,4 +15,12 @@ class Message extends Model
     protected $fillable = [
         'body', 'status', 'restaurant_id',
     ];
+
+    /**
+     * Get the restaurant that owns the message.
+     */
+    public function restaurant()
+    {
+        return $this->belongsTo('App\Restaurant');
+    }
 }
