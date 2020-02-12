@@ -48,12 +48,38 @@ class SmsTest extends TestCase
      */
     public function testShouldNotSendAnSmsWithInvalidData()
     {
+        $mockcontext = $this->createMock(RestaurantController::class);
+        $mockcontext->method("show")->willReturn(
+            $this->errorResponse('', 422)
+        );
+
         $parameters = [
             'phone_number' => '+17609794553',
         ];
 
         $this->post("/sms/send", $parameters, []);
         $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error',
+                'code'
+            ]
+        );
+    }
+
+    /**
+     * /sms/send [POST]
+     * 404
+     */
+    public function testShouldNotSendAnSmsWithInvalidRestaurant()
+    {
+        $parameters = [
+            'restaurant_id' => 51,
+            'phone_number' => '+17609794553',
+        ];
+
+        $this->post("/sms/send", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
         $this->seeJsonStructure(
             [
                 'error'
