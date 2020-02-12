@@ -6,6 +6,8 @@ use App\Traits\ApiResponser;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
+use Twilio\Rest\Client;
+use \Twilio\Rest\Api\V2010\Account\MessageList;
 
 class SmsTest extends TestCase
 {
@@ -18,16 +20,20 @@ class SmsTest extends TestCase
      */
     public function testShouldSendAnSms()
     {
-        $mockcontext = $this->createMock(RestaurantController::class);
-        $mockcontext->method("show")->willReturn(
+        $mockRestaurantController = $this->createMock(RestaurantController::class);
+        $mockRestaurantController->method("show")->willReturn(
             $this->successResponse(
                 factory(Restaurant::class)->make()
             )
         );
 
+        $mockSmsClient = $this->createMock(Client::class);
+        $mockSmsClient->messages = $this->createMock(MessageList::class);
+        $mockSmsClient->messages->method("create")->willReturn([]);
+
         $parameters = [
             'restaurant_id' => 1,
-            'phone_number' => '+17609794553',
+            'phone_number' => '+5585998002758',
         ];
 
         $this->post("/sms/send", $parameters, []);
@@ -48,10 +54,14 @@ class SmsTest extends TestCase
      */
     public function testShouldNotSendAnSmsWithInvalidData()
     {
-        $mockcontext = $this->createMock(RestaurantController::class);
-        $mockcontext->method("show")->willReturn(
+        $mockRestaurantController = $this->createMock(RestaurantController::class);
+        $mockRestaurantController->method("show")->willReturn(
             $this->errorResponse('', 422)
         );
+
+        $mockSmsClient = $this->createMock(Client::class);
+        $mockSmsClient->messages = $this->createMock(MessageList::class);
+        $mockSmsClient->messages->method("create")->willReturn([]);
 
         $parameters = [
             'phone_number' => '+17609794553',
@@ -73,13 +83,17 @@ class SmsTest extends TestCase
      */
     public function testShouldNotSendAnSmsWithInvalidRestaurant()
     {
-        $mockcontext = $this->createMock(RestaurantController::class);
-        $mockcontext->method("show")->willReturn(
+        $mockRestaurantController = $this->createMock(RestaurantController::class);
+        $mockRestaurantController->method("show")->willReturn(
             $this->errorResponse(
                 'Does not exist any instance of restaurant with the given id',
                 404
             )
         );
+
+        $mockSmsClient = $this->createMock(Client::class);
+        $mockSmsClient->messages = $this->createMock(MessageList::class);
+        $mockSmsClient->messages->method("create")->willReturn([]);
 
         $parameters = [
             'restaurant_id' => 51,
