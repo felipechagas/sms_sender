@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\RestaurantController;
 use App\Restaurant;
+use App\Services\SmsService;
 use App\Traits\ApiResponser;
-use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Twilio\Rest\Client;
@@ -31,20 +31,13 @@ class SmsTest extends TestCase
         $mockSmsClient->messages = $this->createMock(MessageList::class);
         $mockSmsClient->messages->method("create")->willReturn([]);
 
-        $parameters = [
-            'restaurant_id' => 1,
-            'phone_number' => '+5585998002758',
-        ];
+        $smsService = new SmsService($mockRestaurantController, $mockSmsClient);
 
-        $this->post("/sms/send", $parameters, []);
-        $this->seeStatusCode(Response::HTTP_OK);
-        $this->seeJsonEquals(
-            [
-                'data' =>
-                [
-                    'status' => 'sent',
-                ]
-            ]
+        $result = $smsService->send(1, '+17609794553');
+
+        $this->assertJsonStringEqualsJsonString(
+            $result->content(),
+            $this->successResponse(array('status' => 'sent'))->content()
         );
     }
 
