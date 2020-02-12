@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 
-class Restaurant extends Model 
+class Restaurant extends Model
 {
 
     /**
@@ -19,4 +19,12 @@ class Restaurant extends Model
     protected $fillable = [
         'name', 'delivery_time',
     ];
+
+    /**
+     * Get the messages of the restaurant.
+     */
+    public function messages()
+    {
+        return $this->hasMany('App\Message');
+    }
 }
