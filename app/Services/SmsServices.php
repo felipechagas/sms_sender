@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Traits\ApiResponser;
 use App\Traits\Formatter;
 use App\Http\Controllers\RestaurantController;
+use Exception;
+use Illuminate\Http\Response;
 use Twilio\Rest\Client;
 
 class SmsService implements SmsServiceInterface
@@ -12,7 +14,8 @@ class SmsService implements SmsServiceInterface
     private $account_sid;
     private $auth_token;
     private $twilio_number;
-    private $restaurant;
+    protected $restaurant_controller;
+    protected $client;
 
     use ApiResponser;
     use Formatter;
@@ -22,12 +25,19 @@ class SmsService implements SmsServiceInterface
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($restaurant_controller = null, $client = null)
     {
         $this->account_sid = getenv("TWILIO_SID");
         $this->auth_token = getenv("TWILIO_AUTH_TOKEN");
         $this->twilio_number = getenv("TWILIO_NUMBER");
-        $this->restaurant = new RestaurantController();
+        $this->restaurant_controller =
+            $restaurant_controller === null ?
+            new RestaurantController() :
+            $restaurant_controller;
+        $this->client =
+            $client === null ?
+            new Client($this->account_sid, $this->auth_token) :
+            $client;
     }
 
     /**
@@ -38,14 +48,18 @@ class SmsService implements SmsServiceInterface
      */
     public function send($restaurant_id, $phone_number)
     {
-        $json_restaurant = $this->restaurant->show($restaurant_id);
+        try {
+            $json_restaurant = $this->restaurant_controller->show($restaurant_id);
+        } catch (Exception $e) {
+            return $this->errorResponse("Does not exist any instance of restaurant with the given id", Response::HTTP_NOT_FOUND);
+        }
+
         $restaurant = $json_restaurant->getData(true);
 
         $restaurant_name = $restaurant['data']['name'];
         $delivery_time = $this->timeFormatter($restaurant['data']['delivery_time']);
 
-        $client = new Client($this->account_sid, $this->auth_token);
-        $client->messages->create(
+        $this->client->messages->create(
             $phone_number,
             array(
                 'from' => $this->twilio_number,
