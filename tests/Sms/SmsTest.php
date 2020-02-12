@@ -73,6 +73,14 @@ class SmsTest extends TestCase
      */
     public function testShouldNotSendAnSmsWithInvalidRestaurant()
     {
+        $mockcontext = $this->createMock(RestaurantController::class);
+        $mockcontext->method("show")->willReturn(
+            $this->errorResponse(
+                'Does not exist any instance of restaurant with the given id',
+                404
+            )
+        );
+
         $parameters = [
             'restaurant_id' => 51,
             'phone_number' => '+17609794553',
@@ -82,7 +90,8 @@ class SmsTest extends TestCase
         $this->seeStatusCode(Response::HTTP_NOT_FOUND);
         $this->seeJsonStructure(
             [
-                'error'
+                'error',
+                'code'
             ]
         );
     }
