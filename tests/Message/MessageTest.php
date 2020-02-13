@@ -181,4 +181,25 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [PUT]
+     * 422
+     */
+    public function testShouldNotPutUpdateInvalidMessage()
+    {
+        $parameters = [
+            'body' => 'Teste',
+            'status' => 10,
+            'restaurant_id' => 1,
+        ];
+
+        $this->put("messages/1", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
 }
