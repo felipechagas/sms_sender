@@ -143,4 +143,25 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [PUT]
+     * 404
+     */
+    public function testShouldNotPutNotFoundMessage()
+    {
+        $parameters = [
+            'body' => 'Teste',
+            'status' => 'sent',
+            'restaurant_id' => 1,
+        ];
+
+        $this->put("messages/1000", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
 }
