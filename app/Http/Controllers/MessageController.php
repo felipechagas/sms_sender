@@ -88,4 +88,17 @@ class MessageController extends Controller
 
         return $this->successResponse($message);
     }
+
+    /**
+     * Remove an existing message
+     * @return Illuminate\Http\Response
+     */
+    public function destroy($message)
+    {
+        $message = Message::findOrFail($message);
+
+        $message->delete();
+
+        return $this->successResponse($message);
+    }
 }
