@@ -289,4 +289,27 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [DELETE]
+     * 200
+     */
+    public function testShouldDeleteMessage()
+    {
+        $this->delete("messages/1", [], []);
+        $this->seeStatusCode(Response::HTTP_OK);
+        $this->seeJsonStructure(
+            [
+                'data' =>
+                [
+                    'id',
+                    'body',
+                    'status',
+                    'restaurant_id',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
+    }
 }
