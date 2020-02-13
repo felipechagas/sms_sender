@@ -61,4 +61,31 @@ class MessageController extends Controller
 
         return $this->successResponse($message, Response::HTTP_CREATED);
     }
+
+    /**
+     * Update an existing message
+     * @return Illuminate\Http\Response
+     */
+    public function update(Request $request, $message)
+    {
+        $rules = [
+            'body' => 'required|max:255',
+            'status' => 'required|string',
+            'restaurant_id' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        $message = Message::findOrFail($message);
+
+        $message->fill($request->all());
+
+        if ($message->isClean()) {
+            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $message->save();
+
+        return $this->successResponse($message);
+    }
 }
