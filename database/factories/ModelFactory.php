@@ -19,12 +19,12 @@ $factory->define(App\Restaurant::class, function (Faker\Generator $faker) {
 });
 
 $factory->afterCreating(App\Restaurant::class, function ($restaurant, $faker) {
-    $restaurant->saveMany(factory(App\Message::class, $faker->numberBetween(0, 3))->make());
+    $restaurant->messages()->saveMany(factory(App\Message::class, $faker->numberBetween(0, 3))->make());
 });
 
 $factory->define(App\Message::class, function (Faker\Generator $faker) {
     return [
         'body' => $faker->sentence(),
-        'status' => $faker->randomElement(array ('sent','received','error')),
+        'status' => $faker->randomElement(array('sent', 'received', 'error')),
     ];
 });
