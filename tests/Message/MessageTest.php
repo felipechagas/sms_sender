@@ -202,4 +202,32 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [PATCH]
+     */
+    public function testShouldPatchUpdateMessage()
+    {
+        $parameters = [
+            'body' => 'Teste',
+            'status' => 10,
+            'restaurant_id' => 1,
+        ];
+
+        $this->patch("messages/1", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_OK);
+        $this->seeJsonStructure(
+            [
+                'data' =>
+                [
+                    'id',
+                    'body',
+                    'status',
+                    'restaurant_id',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
+    }
 }
