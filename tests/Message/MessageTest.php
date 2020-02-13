@@ -52,4 +52,19 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [GET]
+     * 404
+     */
+    public function testShouldNotGetNotFoundMessage()
+    {
+        $this->get("messages/1000", []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
 }
