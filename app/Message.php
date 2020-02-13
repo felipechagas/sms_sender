@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Restaurant extends Model
+class Message extends Model
 {
 
     /**
@@ -13,14 +13,14 @@ class Restaurant extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'delivery_time',
+        'body', 'status', 'restaurant_id',
     ];
 
     /**
-     * Get the messages of the restaurant.
+     * Get the restaurant that owns the message.
      */
-    public function messages()
+    public function restaurant()
     {
-        return $this->hasMany('App\Message');
+        return $this->belongsTo('App\Restaurant');
     }
 }

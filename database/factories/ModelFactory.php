@@ -17,3 +17,14 @@ $factory->define(App\Restaurant::class, function (Faker\Generator $faker) {
         'delivery_time' => $faker->randomNumber(4, false),
     ];
 });
+
+$factory->afterCreating(App\Restaurant::class, function ($restaurant, $faker) {
+    $restaurant->messages()->saveMany(factory(App\Message::class, $faker->numberBetween(0, 3))->make());
+});
+
+$factory->define(App\Message::class, function (Faker\Generator $faker) {
+    return [
+        'body' => $faker->sentence(),
+        'status' => $faker->randomElement(array('sent', 'received', 'error')),
+    ];
+});
