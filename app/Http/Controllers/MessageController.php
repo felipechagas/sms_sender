@@ -42,4 +42,23 @@ class MessageController extends Controller
 
         return $this->successResponse($message);
     }
+
+    /**
+     * Create one new message
+     * @return Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $rules = [
+            'body' => 'required|max:255',
+            'status' => 'required|string',
+            'restaurant_id' => 'required',
+        ];
+
+        $this->validate($request, $rules);
+
+        $message = Message::create($request->all());
+
+        return $this->successResponse($message, Response::HTTP_CREATED);
+    }
 }
