@@ -312,4 +312,19 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [DELETE]
+     * 404
+     */
+    public function testShouldNotDeleteNotFoundMessage()
+    {
+        $this->delete("messages/1000", [], []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
 }
