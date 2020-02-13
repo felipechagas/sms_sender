@@ -4,7 +4,8 @@ namespace App\Services;
 
 use App\Traits\ApiResponser;
 use App\Traits\Formatter;
-use App\Http\Controllers\RestaurantController;
+use App\Restaurant;
+use App\Message;
 use Exception;
 use Illuminate\Http\Response;
 use Twilio\Rest\Client;
@@ -14,7 +15,8 @@ class SmsService implements SmsServiceInterface
     private $account_sid;
     private $auth_token;
     private $twilio_number;
-    protected $restaurant_controller;
+    protected $message;
+    protected $restaurant;
     protected $client;
 
     use ApiResponser;
@@ -25,15 +27,16 @@ class SmsService implements SmsServiceInterface
      *
      * @return void
      */
-    public function __construct($restaurant_controller = null, $client = null)
+    public function __construct($client = null, $message = null, $restaurant = null)
     {
         $this->account_sid = getenv("TWILIO_SID");
         $this->auth_token = getenv("TWILIO_AUTH_TOKEN");
         $this->twilio_number = getenv("TWILIO_NUMBER");
-        $this->restaurant_controller =
-            $restaurant_controller === null ?
-            new RestaurantController() :
-            $restaurant_controller;
+
+        $this->message = $message === null ? new Message() : $message;
+
+        $this->restaurant = $restaurant === null ? new Restaurant() : $restaurant;
+
         $this->client =
             $client === null ?
             new Client($this->account_sid, $this->auth_token) :
@@ -48,26 +51,34 @@ class SmsService implements SmsServiceInterface
      */
     public function send($restaurant_id, $phone_number)
     {
+        $restaurant = $this->restaurant->findOrFail($restaurant_id);
+
+        $body = $this->buildMessageBody($restaurant);
+
+        $this->message = $this->message->create([
+            'body' => $body,
+            'status' => 'not sent',
+            'restaurant_id' => $restaurant_id,
+        ]);
+
         try {
-            $json_restaurant = $this->restaurant_controller->show($restaurant_id);
+            $this->client->messages->create(
+                $phone_number,
+                array(
+                    'from' => $this->twilio_number,
+                    'body' => $body
+                )
+            );
         } catch (Exception $e) {
-            return $this->errorResponse("Does not exist any instance of restaurant with the given id", Response::HTTP_NOT_FOUND);
+            return $this->errorResponse(
+                'SMS Service unavailable.',
+                Response::HTTP_SERVICE_UNAVAILABLE
+            );
         }
 
-        $restaurant = $json_restaurant->getData(true);
+        $this->message->fill(['status' => 'sent']);
+        $this->message->save();
 
-        $restaurant_name = $restaurant['data']['name'];
-        $delivery_time = $this->timeFormatter($restaurant['data']['delivery_time']);
-
-        $this->client->messages->create(
-            $phone_number,
-            array(
-                'from' => $this->twilio_number,
-                'body' => "Take Away: Your order on $restaurant_name was received." .
-                    "The estimated delivery time is $delivery_time."
-            )
-        );
-
-        return $this->successResponse(array('status' => 'sent'));
+        return $this->successResponse($this->message);
     }
 }
