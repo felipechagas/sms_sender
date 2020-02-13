@@ -251,4 +251,21 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [PATCH]
+     * 422
+     */
+    public function testShouldNotPatchEmptyChanges()
+    {
+        $parameters = [];
+
+        $this->patch("messages/1", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
 }
