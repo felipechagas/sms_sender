@@ -67,4 +67,33 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages [POST]
+     * 201
+     */
+    public function testShouldCreateMessage()
+    {
+        $parameters = [
+            'body' => 'Teste',
+            'status' => 'sent',
+            'restaurant_id' => 1,
+        ];
+
+        $this->post("messages", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_CREATED);
+        $this->seeJsonStructure(
+            [
+                'data' =>
+                [
+                    'id',
+                    'body',
+                    'status',
+                    'restaurant_id',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
+    }
 }
