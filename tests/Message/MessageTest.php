@@ -29,4 +29,27 @@ class MessageTest extends TestCase
             ]
         ]);
     }
+
+    /**
+     * /messages/id [GET]
+     * 200
+     */
+    public function testShouldReturnMessage()
+    {
+        $this->get("messages/1", []);
+        $this->seeStatusCode(Response::HTTP_OK);
+        $this->seeJsonStructure(
+            [
+                'data' =>
+                [
+                    'id',
+                    'body',
+                    'status',
+                    'restaurant_id',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
+    }
 }
