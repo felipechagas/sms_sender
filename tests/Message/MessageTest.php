@@ -96,4 +96,23 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages [POST]
+     * 422
+     */
+    public function testShouldNotCreateInvalidMessage()
+    {
+        $parameters = [
+            'name' => 'Test',
+        ];
+
+        $this->post("messages", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
 }
