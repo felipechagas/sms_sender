@@ -115,4 +115,32 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [PUT]
+     * 200
+     */
+    public function testShouldPutUpdateMessage()
+    {
+        $parameters = [
+            'body' => 'Teste',
+            'status' => 'sent',
+            'restaurant_id' => 1,
+        ];
+
+        $this->put("messages/1", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_OK);
+        $this->seeJsonStructure(
+            [
+                'data' =>
+                [
+                    'id',
+                    'name',
+                    'delivery_time',
+                    'created_at',
+                    'updated_at'
+                ]
+            ]
+        );
+    }
 }
