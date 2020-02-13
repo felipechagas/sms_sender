@@ -37,4 +37,13 @@ trait Formatter
 
         return "10 minutes";
     }
+
+    public function buildMessageBody($restaurant)
+    {
+        $restaurant_name = $restaurant['name'];
+        $delivery_time = $this->timeFormatter($restaurant['delivery_time']);
+
+        return "Take Away: Your order on $restaurant_name was received." .
+            "The estimated delivery time is $delivery_time.";
+    }
 }
