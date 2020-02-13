@@ -230,4 +230,25 @@ class MessageTest extends TestCase
             ]
         );
     }
+
+    /**
+     * /messages/id [PATCH]
+     * 404
+     */
+    public function testShouldNotPatchNotFoundMessage()
+    {
+        $parameters = [
+            'body' => 'Teste',
+            'status' => 'sent',
+            'restaurant_id' => 1,
+        ];
+
+        $this->patch("messages/1000", $parameters, []);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+        $this->seeJsonStructure(
+            [
+                'error'
+            ]
+        );
+    }
 }
