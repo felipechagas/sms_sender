@@ -5,7 +5,7 @@ services:
     build:
       context: .
       target: VUE-BUILD
-    command: 'sh -c "yarn run build && yarn run serve"'
+    command: yarn run serve
     image: felipechagas/lumen:latest-slim-with_vue-fe
     ports:
       - 8081:8080
