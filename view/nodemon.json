@@ -1,0 +1,7 @@
+{
+    "verbose": true,
+    "legacyWatch": true,
+    "watch": ["src"],
+    "exec": "rm -rf ../public/view/* && yarn run build --mode development --no-clean",
+    "ext": "js,vue,css"
+}
