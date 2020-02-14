@@ -4,7 +4,9 @@
       <h1>Messages Log</h1>
     </header>
     <main>
-      <aside class="sidebar"></aside>
+      <aside class="sidebar">
+        <div v-bind:key v-for="post in messages">{{ post.title }}</div>
+      </aside>
       <div class="content"></div>
     </main>
   </div>
