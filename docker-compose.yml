@@ -1,10 +1,25 @@
 version: "2.4"
 
 services:
+  view:
+    build:
+      context: .
+      target: VUE-BUILD
+    command: 'sh -c "yarn run build && yarn run serve"'
+    image: felipechagas/lumen:latest-slim-with_vue-fe
+    ports:
+      - 8081:8080
+    networks:
+      - net
+    volumes:
+      - ./public/view/:/public/view/:delegated
+    depends_on:
+      - app
+
   app:
     build: .
     command: 'sh -c "echo ''Starting app...'' && php -S 0.0.0.0:8080 -t public"'
-    image: felipechagas/sms_sender:latest-slim
+    image: felipechagas/lumen:latest-slim-with_vue
     ports:
       - 8080:8080
     networks:
