@@ -5,7 +5,7 @@
     </header>
     <main>
       <aside class="sidebar">
-        <div v-bind:key v-for="post in messages">{{ post.title }}</div>
+        <b-table striped hover :items="messages"></b-table>
       </aside>
       <div class="content"></div>
     </main>
