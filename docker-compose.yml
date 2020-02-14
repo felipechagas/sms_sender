@@ -5,16 +5,11 @@ services:
     build:
       context: .
       target: VUE-BUILD
-    command: yarn run serve
+    command: yarn run build:watch
     image: felipechagas/lumen:latest-slim-with_vue-fe
-    ports:
-      - 8081:8080
-    networks:
-      - net
     volumes:
+      - ./view/:/app/:delegated
       - ./public/view/:/public/view/:delegated
-    depends_on:
-      - app
 
   app:
     build: .
@@ -28,6 +23,7 @@ services:
       - ./:/var/www/html:delegated
       - ./.env:/var/www/html/.env:delegated,ro
     depends_on:
+      - view
       - db
 
   db:
