@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Message;
 use App\Traits\ApiResponser;
+use App\Repository\MessageRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -20,7 +21,7 @@ class MessageController extends Controller
      */
     public function __construct(MessageRepositoryInterface $message)
     {
-        $this->$message = $message;
+        $this->message = $message;
     }
 
     /**
@@ -39,7 +40,7 @@ class MessageController extends Controller
 
         $data = $request->all();
 
-        return $this->$message($data);
+        return $this->message->index($data);
     }
 
     /**
