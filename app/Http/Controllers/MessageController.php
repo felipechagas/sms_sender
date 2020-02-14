@@ -11,25 +11,35 @@ class MessageController extends Controller
 {
     use ApiResponser;
 
+    protected $message;
+
     /**
      * Create a new MessageController instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(MessageRepositoryInterface $message)
     {
-        //
+        $this->$message = $message;
     }
 
     /**
      * Return the list of messages
      * @return Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $messages = Message::all();
+        $rules = [
+            'body' => 'max:255',
+            'status' => 'min:4|max:10',
+            'take' => 'numeric|min:1',
+        ];
 
-        return $this->successResponse($messages);
+        $this->validate($request, $rules);
+
+        $data = $request->all();
+
+        return $this->$message($data);
     }
 
     /**
