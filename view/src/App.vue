@@ -11,11 +11,31 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      posts: []
+      messages: [],
+      getMessages: "http://localhost:8080/messages?take=50"
     };
+  },
+
+  created() {
+    this.getAllPosts();
+  },
+
+  methods: {
+    getAllPosts() {
+      axios
+        .get(this.getMessages)
+        .then(response => {
+          this.messages = response.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   }
 };
 </script>
