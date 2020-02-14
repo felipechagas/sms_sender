@@ -20,7 +20,7 @@ class MessageRepositoryTest extends TestCase
 
         $this->assertArrayNotHasKey(
             'error',
-            json_decode($result->content()),
+            json_decode($result->content(), true),
         );
     }
 }
