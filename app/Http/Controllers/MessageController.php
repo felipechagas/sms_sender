@@ -69,8 +69,8 @@ class MessageController extends Controller
     public function update(Request $request, $message)
     {
         $rules = [
-            'body' => 'required|max:255',
-            'status' => 'required|string',
+            'body' => 'max:255',
+            'status' => 'min:4|max:10',
         ];
 
         $this->validate($request, $rules);

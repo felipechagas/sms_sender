@@ -135,8 +135,9 @@ class MessageTest extends TestCase
                 'data' =>
                 [
                     'id',
-                    'name',
-                    'delivery_time',
+                    'body',
+                    'status',
+                    'restaurant_id',
                     'created_at',
                     'updated_at'
                 ]
@@ -210,7 +211,7 @@ class MessageTest extends TestCase
     {
         $parameters = [
             'body' => 'Teste',
-            'status' => 10,
+            'status' => 'sent',
             'restaurant_id' => 1,
         ];
 

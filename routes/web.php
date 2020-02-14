@@ -24,3 +24,5 @@ $router->get('/messages/{message}', 'MessageController@show');
 $router->put('/messages/{message}', 'MessageController@update');
 $router->patch('/messages/{message}', 'MessageController@update');
 $router->delete('/messages/{message}', 'MessageController@destroy');
+
+$router->post('/sms/send', "SmsController@send");
