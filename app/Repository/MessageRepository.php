@@ -29,16 +29,16 @@ class MessageRepository implements MessageRepositoryInterface
     {
         $messages = new Message();
 
-        if(!is_null($query['status'])) {
-            $messages->where('status', '=', $query['status']);
+        if (array_key_exists('status', $query)) {
+            $messages = $messages->where('status', '=', $query['status']);
         }
 
-        if(!is_null($query['body'])) {
-            $messages->where('body', 'LIKE', '%' .$query['body'].'%' );
+        if (array_key_exists('body', $query)) {
+            $messages = $messages->where('body', 'LIKE', '%' . $query['body'] . '%');
         }
 
-        if(!is_null($query['take'])) {
-            $messages->take($query['take'])->get();
+        if (array_key_exists('take', $query)) {
+            $messages = $messages->take($query['take'])->get();
         } else {
             $messages = $messages->get();
         }
