@@ -14,8 +14,8 @@ class MessageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            'App\Services\MessageRepositoryInterface',
-            'App\Services\MessageRepository'
+            'App\Repository\MessageRepositoryInterface',
+            'App\Repository\MessageRepository'
         );
     }
 }
