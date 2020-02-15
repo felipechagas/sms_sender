@@ -34,6 +34,7 @@ class MessageController extends Controller
             'body' => 'max:255',
             'status' => 'min:4|max:10',
             'take' => 'numeric|min:1',
+            'from' => 'numeric|min:1',
         ];
 
         $this->validate($request, $rules);
