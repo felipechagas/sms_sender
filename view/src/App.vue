@@ -26,10 +26,17 @@
         ></b-table>
 
         <b-pagination
+          pills
           v-model="currentPage"
+          size="sm"
+          align="center"
           :total-rows="rows"
           :per-page="perPage"
           aria-controls="lastMessages"
+          first-text="First"
+          prev-text="Prev"
+          next-text="Next"
+          last-text="Last"
         ></b-pagination>
       </div>
     </main>
