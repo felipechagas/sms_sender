@@ -1,11 +1,16 @@
 <template>
   <div id='app'>
     <header>
-      <h1>Messages Log</h1>
+      <h2>Take Away</h2>
     </header>
     <main>
       <div class='content'>
+        <h3>Failed messages in last 24 hours</h3>
+      </div>
+      <div class='content'>
+        <h3>Recent Messages</h3>
         <b-table
+          sticky-header
           :items="messages"
           :fields="fields"
           :sort-by.sync="sortBy"
@@ -13,13 +18,14 @@
           responsive="sm"
         ></b-table>
       </div>
-      <div class='content'></div>
     </main>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { BTable } from 'bootstrap-vue';
 
 export default {
@@ -39,7 +45,7 @@ export default {
   },
 
   created() {
-    //this.getAllMessages();
+    this.getAllMessages();
   },
 
   methods: {
@@ -47,7 +53,7 @@ export default {
       axios
         .get(this.getMessages)
         .then(response => {
-          this.messages = response.data;
+          this.messages = response.data.data;
         })
         .catch(error => {
           console.log(error);
@@ -62,20 +68,5 @@ export default {
 </script>
 
 <style lang='scss'>
-body {
-  margin: 0;
-  padding: 0;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-}
-
-h1,
-h2 {
-  font-weight: normal;
-}
 
 </style>
