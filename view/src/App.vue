@@ -41,6 +41,13 @@
       <hr/>
       <div class='content'>
         <h5>Recent Messages</h5>
+        <b-form-group
+          label-cols-sm="3"
+          label-align-sm="right"
+          label-size="sm"
+          label-for=""
+          class="mb-0"
+        ></b-form-group>
         <b-table
           class='message-table'
           id='lastMessages'
@@ -80,7 +87,7 @@
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import { BTable, BPagination } from 'bootstrap-vue';
+import { BTable, BPagination, BFormGroup } from 'bootstrap-vue';
 
 export default {
   name: 'MessageLog',
@@ -144,7 +151,8 @@ export default {
 
   components: {
     BTable,
-    BPagination
+    BPagination,
+    BFormGroup
   }
 };
 </script>
