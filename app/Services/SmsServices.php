@@ -59,6 +59,7 @@ class SmsService implements SmsServiceInterface
             'body' => $body,
             'status' => 'error',
             'restaurant_id' => $restaurant_id,
+            'phone_number' => $phone_number,
         ]);
 
         try {
