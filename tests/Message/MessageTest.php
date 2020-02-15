@@ -76,7 +76,7 @@ class MessageTest extends TestCase
     {
         $parameters = [
             'body' => 'Teste',
-            'status' => 'sent',
+            'status' => 'delivered',
             'restaurant_id' => 1,
         ];
 
@@ -124,7 +124,7 @@ class MessageTest extends TestCase
     {
         $parameters = [
             'body' => 'Teste',
-            'status' => 'sent',
+            'status' => 'delivered',
             'restaurant_id' => 1,
         ];
 
@@ -153,7 +153,7 @@ class MessageTest extends TestCase
     {
         $parameters = [
             'body' => 'Teste',
-            'status' => 'sent',
+            'status' => 'delivered',
             'restaurant_id' => 1,
         ];
 
@@ -211,7 +211,7 @@ class MessageTest extends TestCase
     {
         $parameters = [
             'body' => 'Teste',
-            'status' => 'sent',
+            'status' => 'delivered',
             'restaurant_id' => 1,
         ];
 
@@ -240,7 +240,7 @@ class MessageTest extends TestCase
     {
         $parameters = [
             'body' => 'Teste',
-            'status' => 'sent',
+            'status' => 'delivered',
             'restaurant_id' => 1,
         ];
 

@@ -57,7 +57,7 @@ class SmsService implements SmsServiceInterface
 
         $this->message = $this->message->create([
             'body' => $body,
-            'status' => 'not sent',
+            'status' => 'error',
             'restaurant_id' => $restaurant_id,
         ]);
 
@@ -76,7 +76,7 @@ class SmsService implements SmsServiceInterface
             );
         }
 
-        $this->message->fill(['status' => 'sent']);
+        $this->message->fill(['status' => 'delivered']);
         $this->message->save();
 
         return $this->successResponse($this->message);

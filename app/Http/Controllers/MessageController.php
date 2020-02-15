@@ -65,6 +65,7 @@ class MessageController extends Controller
             'body' => 'required|max:255',
             'status' => 'required|string',
             'restaurant_id' => 'required',
+            'phone_number' => 'required',
         ];
 
         $this->validate($request, $rules);
