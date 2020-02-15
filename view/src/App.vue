@@ -41,13 +41,20 @@
       <hr/>
       <div class='content'>
         <h5>Recent Messages</h5>
-        <b-form-group
-          label-cols-sm="3"
-          label-align-sm="right"
-          label-size="sm"
-          label-for=""
-          class="mb-0"
-        ></b-form-group>
+        <b-form-group>
+          <b-input-group size="sm">
+            <b-form-input
+              v-model="filter"
+              type="search"
+              id="filterInput"
+              placeholder="Type to Search"
+            ></b-form-input>
+            <b-input-group-append>
+              <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+            </b-input-group-append>
+          </b-input-group>
+        </b-form-group>
+
         <b-table
           class='message-table'
           id='lastMessages'
@@ -58,11 +65,14 @@
           head-variant='light'
           :items="messages"
           :fields="fields"
+          :filter="filter"
+          :filterIncludedFields="filterOn"
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
           :per-page="perPage"
           :current-page="currentPage"
           responsive="sm"
+          @filtered="onFiltered"
         ></b-table>
 
         <b-pagination
@@ -116,6 +126,9 @@ export default {
       rows: 50,
       messages: [],
       getMessages: 'http://localhost:8080/messages?take=50',
+      filter: null,
+      filterOn: [],
+      filterByFormatted: true,
     };
   },
 
@@ -147,6 +160,10 @@ export default {
           console.log(error);
         });
     },
+    onFiltered(filteredItems) {
+      this.totalRows = filteredItems.length
+      this.currentPage = 1
+    }
   },
 
   components: {
