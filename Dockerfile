@@ -16,7 +16,7 @@ ARG COMPOSER_VERSION=1.9.3
 # Installing composer and lumen's dependencies and tini to ensure proper SIGTERM handling
 RUN apt-get update -qm \
     && apt-get install -qy php7.3 php7.3-mbstring php7.3-zip php7.3-xml \
-    php7.3-mysql apache2 libapache2-mod-php unzip tini
+    php7.3-mysql php7.3-curl apache2 libapache2-mod-php unzip tini
 # Installing composer to /usr/bin/composer
 RUN cd /usr/bin \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
