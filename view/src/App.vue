@@ -1,16 +1,20 @@
 <template>
   <div id='app'>
     <header>
-      <h2>Take Away</h2>
+      <h3>Take Away</h3>
     </header>
     <main>
       <div class='content'>
-        <h3>Failed messages in last 24 hours</h3>
+        <h4>Failed messages in last 24 hours</h4>
       </div>
       <div class='content'>
-        <h3>Recent Messages</h3>
+        <h4>Recent Messages</h4>
         <b-table
           sticky-header
+          striped
+          hover
+          borderless
+          head-variant='light'
           :items="messages"
           :fields="fields"
           :sort-by.sync="sortBy"
