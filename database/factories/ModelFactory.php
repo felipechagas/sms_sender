@@ -25,6 +25,6 @@ $factory->afterCreating(App\Restaurant::class, function ($restaurant, $faker) {
 $factory->define(App\Message::class, function (Faker\Generator $faker) {
     return [
         'body' => $faker->sentence(),
-        'status' => $faker->randomElement(array('sent', 'received', 'error')),
+        'status' => $faker->randomElement(array('sent', 'not sent')),
     ];
 });

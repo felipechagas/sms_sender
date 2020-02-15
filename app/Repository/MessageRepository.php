@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Traits\ApiResponser;
 use App\Message;
+use Carbon\Carbon;
 
 class MessageRepository implements MessageRepositoryInterface
 {
@@ -35,6 +36,11 @@ class MessageRepository implements MessageRepositoryInterface
 
         if (array_key_exists('body', $query)) {
             $messages = $messages->where('body', 'LIKE', '%' . $query['body'] . '%');
+        }
+
+        if (array_key_exists('from', $query)) {
+            $messages = $messages->
+                where("updated_at", ">", Carbon::now()->subMinutes($query['from']));
         }
 
         if (array_key_exists('take', $query)) {
