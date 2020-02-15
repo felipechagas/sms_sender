@@ -4,9 +4,15 @@
       <h1>Messages Log</h1>
     </header>
     <main>
-      <aside class='sidebar'>
-        <b-table striped hover :items='messages'></b-table>
-      </aside>
+      <div class='content'>
+        <b-table
+          :items="messages"
+          :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          responsive="sm"
+        ></b-table>
+      </div>
       <div class='content'></div>
     </main>
   </div>
@@ -14,31 +20,43 @@
 
 <script>
 import axios from 'axios';
+import { BTable } from 'bootstrap-vue';
 
 export default {
   data() {
     return {
+      sortBy: 'id',
+      sortDesc: false,
+      fields: [
+        { key: 'id', sortable: true },
+        { key: 'body', sortable: true },
+        { key: 'status', sortable: true },
+        { key: 'created_at', sortable: true }
+      ],
       messages: [],
       getMessages: 'http://localhost:8080/messages?take=50'
     };
   },
 
   created() {
-    this.getAllPosts();
+    //this.getAllMessages();
   },
 
   methods: {
-    getAllPosts() {
+    getAllMessages() {
       axios
         .get(this.getMessages)
         .then(response => {
-          console.log(response.data);
           this.messages = response.data;
         })
         .catch(error => {
           console.log(error);
         });
     }
+  },
+
+  components: {
+    BTable
   }
 };
 </script>
@@ -60,49 +78,4 @@ h2 {
   font-weight: normal;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  min-height: 90px;
-  border-bottom: 1px solid #ff8000;
-  text-align: center;
-  background: #ffffff;
-}
-
-main {
-  display: flex;
-  height: calc(100vh - 90px);
-  max-width: 1200px;
-  margin-top: 90px;
-  margin-left: auto;
-  margin-right: auto;
-  overflow: hidden;
-}
-
-aside {
-  flex: 1 0 30%;
-  height: 100%;
-  overflow-y: auto;
-  width: 30%;
-  padding: 50px 30px;
-  box-sizing: border-box;
-  border-right: 1px solid #ff8000;
-}
-.content {
-  flex: 1 1 70%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 </style>
