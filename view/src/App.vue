@@ -1,25 +1,25 @@
 <template>
-  <div id="app">
+  <div id='app'>
     <header>
       <h1>Messages Log</h1>
     </header>
     <main>
-      <aside class="sidebar">
-        <b-table striped hover :items="messages"></b-table>
+      <aside class='sidebar'>
+        <b-table striped hover :items='messages'></b-table>
       </aside>
-      <div class="content"></div>
+      <div class='content'></div>
     </main>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   data() {
     return {
       messages: [],
-      getMessages: "http://localhost:8080/messages?take=50"
+      getMessages: 'http://localhost:8080/messages?take=50'
     };
   },
 
@@ -32,6 +32,7 @@ export default {
       axios
         .get(this.getMessages)
         .then(response => {
+          console.log(response.data);
           this.messages = response.data;
         })
         .catch(error => {
@@ -42,13 +43,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 body {
   margin: 0;
   padding: 0;
 }
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
