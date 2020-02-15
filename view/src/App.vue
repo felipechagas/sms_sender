@@ -116,7 +116,7 @@ export default {
       failedSmsPerPage: 5,
       failedSmsRows: 50,
       failedMessages: [],
-      getFailedMessages: 'http://localhost:8080/messages?take=50&status=not sent&from=1440',
+      getFailedMessages: 'http://localhost:8080/messages?take=50&status=error&from=1440',
 
       // All messages table
       sortBy: 'id',

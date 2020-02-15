@@ -18,6 +18,7 @@ class CreateMessagesTable extends Migration
             $table->bigInteger('restaurant_id');
             $table->string('body');
             $table->string('status');
+            $table->string('phone_number');
             $table->timestamps();
         });
     }
