@@ -10,6 +10,7 @@
       <div class='content'>
         <h4>Recent Messages</h4>
         <b-table
+          id='lastMessages'
           sticky-header
           striped
           hover
@@ -19,8 +20,17 @@
           :fields="fields"
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
+          :per-page="perPage"
+          :current-page="currentPage"
           responsive="sm"
         ></b-table>
+
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="lastMessages"
+        ></b-pagination>
       </div>
     </main>
   </div>
@@ -30,15 +40,18 @@
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import { BTable } from 'bootstrap-vue';
+import { BTable, BPagination } from 'bootstrap-vue';
 
 export default {
+  name: 'MessageLog',
   data() {
     return {
       sortBy: 'id',
-      sortDesc: false,
+      sortDesc: true,
+      currentPage: 1,
+      perPage: 5,
+      rows: 50,
       fields: [
-        { key: 'id', sortable: true },
         { key: 'body', sortable: true },
         { key: 'status', sortable: true },
         { key: 'created_at', sortable: true }
@@ -58,6 +71,7 @@ export default {
         .get(this.getMessages)
         .then(response => {
           this.messages = response.data.data;
+          this.rows = this.messages.length;
         })
         .catch(error => {
           console.log(error);
@@ -66,7 +80,8 @@ export default {
   },
 
   components: {
-    BTable
+    BTable,
+    BPagination
   }
 };
 </script>
