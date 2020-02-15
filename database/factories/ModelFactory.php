@@ -23,8 +23,15 @@ $factory->afterCreating(App\Restaurant::class, function ($restaurant, $faker) {
 });
 
 $factory->define(App\Message::class, function (Faker\Generator $faker) {
+    $date = $faker->dateTimeThisMonth('now', 'UTC');
+
     return [
-        'body' => $faker->sentence(),
+        'body' => "Take Away: Your order on ".$faker->company.
+            " was received.The estimated delivery time is ".
+            $faker->randomNumber(2, false)." minutes.",
         'status' => $faker->randomElement(array('delivered', 'error')),
+        'phone_number' => $faker->e164PhoneNumber(),
+        'updated_at' => $date,
+        'created_at' => $date,
     ];
 });
