@@ -7,7 +7,7 @@ use Twilio\Rest\Client;
 use \Twilio\Rest\Api\V2010\Account\MessageList;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-class SmsTest extends TestCase
+class SmsServiceTest extends TestCase
 {
     use DatabaseTransactions;
     use ApiResponser;
@@ -34,7 +34,7 @@ class SmsTest extends TestCase
 
     /**
      * /sms/send [POST]
-     * 200
+     * 500
      */
     public function testShouldReturnAnInternalError()
     {
