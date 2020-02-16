@@ -38,12 +38,19 @@ trait Formatter
         return "10 minutes";
     }
 
-    public function buildMessageBody($restaurant)
+    public function buildMessageBody($restaurant, $type)
     {
         $restaurant_name = $restaurant['name'];
         $delivery_time = $this->timeFormatter($restaurant['delivery_time']);
 
-        return "Take Away: Your order on $restaurant_name was received." .
-            "The estimated delivery time is $delivery_time.";
+        if($type === 'before') {
+            return "Take Away: Your order on $restaurant_name was received." .
+                "The estimated delivery time is $delivery_time.";
+        }
+
+        if($type === 'after') {
+            return "Take Away: Thank you for picking $restaurant_name. If you".
+                "enjoyed your meal why don't you rate us on the Take Away app?";
+        }
     }
 }

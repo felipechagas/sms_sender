@@ -108,6 +108,7 @@ export default {
         { key: 'status', sortable: true },
         { key: 'created_at', sortable: true },
         { key: 'phone_number', sortable: true }
+        { key: 'type', sortable: true }
       ],
 
       // Failed messages table

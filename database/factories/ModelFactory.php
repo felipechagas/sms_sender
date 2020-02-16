@@ -31,6 +31,7 @@ $factory->define(App\Message::class, function (Faker\Generator $faker) {
             $faker->randomNumber(2, false)." minutes.",
         'status' => $faker->randomElement(array('delivered', 'error')),
         'phone_number' => $faker->e164PhoneNumber(),
+        'type' => $faker->randomElement(array('before', 'after')),
         'updated_at' => $date,
         'created_at' => $date,
     ];
