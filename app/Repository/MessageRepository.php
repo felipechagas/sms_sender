@@ -21,10 +21,10 @@ class MessageRepository implements MessageRepositoryInterface
     }
 
     /**
+     * Get filtered messages by query
      *
-     *
-     * @param
-     * @return
+     * @param Array $query
+     * @return Illuminate\Http\Response
      */
     public function index($query = array())
     {
