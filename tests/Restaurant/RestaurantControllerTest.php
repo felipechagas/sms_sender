@@ -1,10 +1,9 @@
 <?php
 
-use Laravel\Lumen\Testing\DatabaseMigrations;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 
-class RestaurantTest extends TestCase
+class RestaurantControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -12,7 +11,7 @@ class RestaurantTest extends TestCase
      * /restaurants [GET]
      * 200
      */
-    public function testShouldReturnAllRestaurants()
+    public function testShouldGetRestaurants()
     {
         $this->get("restaurants", []);
         $this->seeStatusCode(Response::HTTP_OK);
@@ -34,7 +33,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [GET]
      * 200
      */
-    public function testShouldReturnRestaurant()
+    public function testShouldGetRestaurant()
     {
         $this->get("restaurants/1", []);
         $this->seeStatusCode(Response::HTTP_OK);
@@ -56,7 +55,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [GET]
      * 404
      */
-    public function testShouldNotGetNotFoundRestaurant()
+    public function testGetShouldReturnNotFound()
     {
         $this->get("restaurants/51", []);
         $this->seeStatusCode(Response::HTTP_NOT_FOUND);
@@ -71,7 +70,7 @@ class RestaurantTest extends TestCase
      * /restaurants [POST]
      * 201
      */
-    public function testShouldCreateRestaurant()
+    public function testShouldPostRestaurant()
     {
         $parameters = [
             'name' => 'Test',
@@ -98,7 +97,7 @@ class RestaurantTest extends TestCase
      * /restaurants [POST]
      * 422
      */
-    public function testShouldNotCreateInvalidRestaurant()
+    public function testPostShouldReturnUnprocessableEntity()
     {
         $parameters = [
             'delivery_time' => 1000,
@@ -117,7 +116,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PUT]
      * 200
      */
-    public function testShouldPutUpdateRestaurant()
+    public function testShouldPutRestaurant()
     {
         $parameters = [
             'name' => 'Test',
@@ -144,7 +143,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PUT]
      * 404
      */
-    public function testShouldNotPutNotFoundRestaurant()
+    public function testPtShouldReturnNotFound()
     {
         $parameters = [
             'name' => 'Test',
@@ -164,7 +163,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PUT]
      * 422
      */
-    public function testShouldNotPutEmptyChanges()
+    public function testPutShouldReturnEmptyEntity()
     {
         $parameters = [];
 
@@ -181,7 +180,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PUT]
      * 422
      */
-    public function testShouldNotPutUpdateInvalidRestaurant()
+    public function testPutShouldReturnUnprocessableEntity()
     {
         $parameters = [
             'name' => 'Test',
@@ -200,7 +199,7 @@ class RestaurantTest extends TestCase
     /**
      * /restaurants/id [PATCH]
      */
-    public function testShouldPatchUpdateRestaurant()
+    public function testShouldPatchRestaurant()
     {
         $parameters = [
             'name' => 'Test',
@@ -227,7 +226,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PATCH]
      * 404
      */
-    public function testShouldNotPatchNotFoundRestaurant()
+    public function testPatchShouldReturnNotFound()
     {
         $parameters = [
             'name' => 'Test',
@@ -247,7 +246,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PATCH]
      * 422
      */
-    public function testShouldNotPatchEmptyChanges()
+    public function testPatchShouldReturnEmptyEntity()
     {
         $parameters = [];
 
@@ -264,7 +263,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [PATCH]
      * 422
      */
-    public function testShouldNotPatchUpdateInvalidRestaurant()
+    public function testPatchShouldReturnUnprocessableEntity()
     {
         $parameters = [
             'name' => 'Test',
@@ -306,7 +305,7 @@ class RestaurantTest extends TestCase
      * /restaurants/id [DELETE]
      * 404
      */
-    public function testShouldNotDeleteNotFoundRestaurant()
+    public function testDeleteShouldReturnNotFound()
     {
         $this->delete("restaurants/51", [], []);
         $this->seeStatusCode(Response::HTTP_NOT_FOUND);
