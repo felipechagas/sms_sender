@@ -3,7 +3,7 @@
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 
-class MessageTest extends TestCase
+class MessageControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -78,6 +78,8 @@ class MessageTest extends TestCase
             'body' => 'Teste',
             'status' => 'delivered',
             'restaurant_id' => 1,
+            'phone_number' => '+8898837970000',
+            'type' => 'before',
         ];
 
         $this->post("messages", $parameters, []);
@@ -90,6 +92,7 @@ class MessageTest extends TestCase
                     'body',
                     'status',
                     'restaurant_id',
+                    'type',
                     'created_at',
                     'updated_at'
                 ]
