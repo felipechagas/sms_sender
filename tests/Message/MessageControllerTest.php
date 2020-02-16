@@ -11,7 +11,7 @@ class MessageControllerTest extends TestCase
      * /messages [GET]
      * 200
      */
-    public function testShouldReturnAllMessages()
+    public function testShouldGetMessages()
     {
         $this->get("messages", []);
         $this->seeStatusCode(Response::HTTP_OK);
@@ -34,7 +34,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [GET]
      * 200
      */
-    public function testShouldReturnMessage()
+    public function testShouldGetMessage()
     {
         $this->get("messages/1", []);
         $this->seeStatusCode(Response::HTTP_OK);
@@ -57,7 +57,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [GET]
      * 404
      */
-    public function testShouldNotGetNotFoundMessage()
+    public function testGetShouldReturnNotFound()
     {
         $this->get("messages/1000", []);
         $this->seeStatusCode(Response::HTTP_NOT_FOUND);
@@ -72,7 +72,7 @@ class MessageControllerTest extends TestCase
      * /messages [POST]
      * 201
      */
-    public function testShouldCreateMessage()
+    public function testShouldPostMessage()
     {
         $parameters = [
             'body' => 'Teste',
@@ -104,7 +104,7 @@ class MessageControllerTest extends TestCase
      * /messages [POST]
      * 422
      */
-    public function testShouldNotCreateInvalidMessage()
+    public function testPostShouldReturnUnprocessableEntity()
     {
         $parameters = [
             'name' => 'Test',
@@ -123,7 +123,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [PUT]
      * 200
      */
-    public function testShouldPutUpdateMessage()
+    public function testShouldPutMessage()
     {
         $parameters = [
             'body' => 'Teste',
@@ -152,7 +152,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [PUT]
      * 404
      */
-    public function testShouldNotPutNotFoundMessage()
+    public function testPutShouldReturnNotFound()
     {
         $parameters = [
             'body' => 'Teste',
@@ -173,7 +173,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [PUT]
      * 422
      */
-    public function testShouldNotPutEmptyChanges()
+    public function testPutShouldReturnEmptyEntity()
     {
         $parameters = [];
 
@@ -190,7 +190,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [PUT]
      * 422
      */
-    public function testShouldNotPutUpdateInvalidMessage()
+    public function testPutShouldReturnUnprocessableEntity()
     {
         $parameters = [
             'body' => 'Teste',
@@ -210,7 +210,7 @@ class MessageControllerTest extends TestCase
     /**
      * /messages/id [PATCH]
      */
-    public function testShouldPatchUpdateMessage()
+    public function testShouldPatchMessage()
     {
         $parameters = [
             'body' => 'Teste',
@@ -239,7 +239,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [PATCH]
      * 404
      */
-    public function testShouldNotPatchNotFoundMessage()
+    public function testPatchShouldReturnNotFound()
     {
         $parameters = [
             'body' => 'Teste',
@@ -260,7 +260,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [PATCH]
      * 422
      */
-    public function testShouldNotPatchEmptyChanges()
+    public function testPatchShouldReturnEmptyEntity()
     {
         $parameters = [];
 
@@ -277,7 +277,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [PATCH]
      * 422
      */
-    public function testShouldNotPatchUpdateInvalidMessage()
+    public function testPatchShouldReturnUnprocessableEntity()
     {
         $parameters = [
             'body' => 'Teste',
@@ -321,7 +321,7 @@ class MessageControllerTest extends TestCase
      * /messages/id [DELETE]
      * 404
      */
-    public function testShouldNotDeleteNotFoundMessage()
+    public function testDeleteShouldReturnNotFound()
     {
         $this->delete("messages/1000", [], []);
         $this->seeStatusCode(Response::HTTP_NOT_FOUND);
