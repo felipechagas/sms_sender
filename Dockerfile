@@ -16,7 +16,7 @@ ARG COMPOSER_VERSION=1.9.3
 # Installing composer and lumen's dependencies and tini to ensure proper SIGTERM handling
 RUN apt-get update -qm \
     && apt-get install -qy php7.3 php7.3-mbstring php7.3-zip php7.3-xml \
-    php7.3-mysql php7.3-curl apache2 libapache2-mod-php unzip tini
+    php7.3-mysql php7.3-curl apache2 libapache2-mod-php unzip tini cron
 # Installing composer to /usr/bin/composer
 RUN cd /usr/bin \
     && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -30,12 +30,14 @@ RUN cd /usr/bin \
     /etc/apache2/sites-enabled/000-default.conf
 
 WORKDIR /var/www/html
-
 COPY . .
-# Removing raw view files
+# Installing the project's dependencies
 RUN rm -rf ./view/ \
-    # Installing project's dependencies
-    && php /usr/bin/composer install
+    && php /usr/bin/composer install \
+    # Adding scheduler's cron job
+    && echo '* * * * * cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1' \
+    >> /var/spool/cron/crontabs/root
+
 COPY --from=VUE-BUILD /public/view/ ./public/view/
 
 EXPOSE 80
