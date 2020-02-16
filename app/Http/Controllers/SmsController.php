@@ -32,12 +32,13 @@ class SmsController extends Controller
         $rules = [
             'restaurant_id' => 'required',
             'phone_number' => 'required',
+            'type' => 'required',
         ];
 
         $this->validate($request, $rules);
 
         $data = $request->all();
 
-        return $this->sms->send($data['restaurant_id'], $data['phone_number']);
+        return $this->sms->send($data['restaurant_id'], $data['phone_number'], $data['type']);
     }
 }
