@@ -12,7 +12,7 @@ class MessageRepositoryTest extends TestCase
      * /messages [GET]
      * 200
      */
-    public function testShouldReturnAllMessages()
+    public function testShouldGetMessages()
     {
         $repository = new MessageRepository();
 
