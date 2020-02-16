@@ -24,7 +24,7 @@ class SmsTest extends TestCase
 
         $smsService = new SmsService($mockSmsClient, null, null);
 
-        $result = $smsService->send(1, '+17609794553');
+        $result = $smsService->send(1, '+17609794553', 'before');
 
         $this->assertArrayNotHasKey(
             'error',
@@ -46,7 +46,7 @@ class SmsTest extends TestCase
 
         $smsService = new SmsService($mockSmsClient, null, null);
 
-        $result = $smsService->send(1, '+17609794553');
+        $result = $smsService->send(1, '+17609794553', 'before');
 
         $this->assertJsonStringEqualsJsonString(
             $result->content(),
