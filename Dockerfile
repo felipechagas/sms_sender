@@ -35,8 +35,9 @@ COPY . .
 RUN rm -rf ./view/ \
     && php /usr/bin/composer install \
     # Adding scheduler's cron job
-    && echo '* * * * * cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1' \
-    >> /var/spool/cron/crontabs/root
+    && mv ./docker/schedule-run.crontab /etc/cron.d/schedule-run \
+    && chmod 0644 /etc/cron.d/schedule-run \
+    && crontab /etc/cron.d/schedule-run
 
 COPY --from=VUE-BUILD /public/view/ ./public/view/
 
