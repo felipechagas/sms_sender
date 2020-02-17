@@ -11,6 +11,18 @@ services:
       - ./view/:/app/:delegated
       - ./public/view/:/public/view/:delegated
 
+  cron:
+    build: .
+    command: 'cron -f'
+    image: felipechagas/lumen:latest-slim-with_vue
+    networks:
+      - net
+    volumes:
+      - ./:/var/www/html:delegated
+      - ./.env:/var/www/html/.env:delegated,ro
+    depends_on:
+      - db
+
   app:
     build: .
     command: 'sh -c "echo ''Starting app...'' && php -S 0.0.0.0:8080 -t public"'
