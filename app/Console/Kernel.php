@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Services\SmsService;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -24,6 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->call(function () {
+            $smsService = new SmsService();
+            $smsService->sendScheduledSms();
+        })->everyMinute();
     }
 }

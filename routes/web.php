@@ -11,6 +11,18 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->get('/restaurants', 'RestaurantController@index');
+$router->post('/restaurants', 'RestaurantController@store');
+$router->get('/restaurants/{restaurant}', 'RestaurantController@show');
+$router->put('/restaurants/{restaurant}', 'RestaurantController@update');
+$router->patch('/restaurants/{restaurant}', 'RestaurantController@update');
+$router->delete('/restaurants/{restaurant}', 'RestaurantController@destroy');
+
+$router->get('/messages', 'MessageController@index');
+$router->post('/messages', 'MessageController@store');
+$router->get('/messages/{message}', 'MessageController@show');
+$router->put('/messages/{message}', 'MessageController@update');
+$router->patch('/messages/{message}', 'MessageController@update');
+$router->delete('/messages/{message}', 'MessageController@destroy');
+
+$router->post('/sms/send', "SmsController@send");

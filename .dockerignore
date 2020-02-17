@@ -1,0 +1,44 @@
+# docker files
+Dockerfile
+docker-compose.yml
+
+# git files
+.git/
+.git*
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+# view/.gitignore
+.DS_Store
+view/node_modules/
+view/dist/
+
+view/tests/e2e/videos/
+view/tests/e2e/screenshots/
+
+# local env files
+view/.env.local
+view/.env.*.local
+
+# Log files
+view/npm-debug.log*
+view/yarn-debug.log*
+view/yarn-error.log*
+
+# Editor directories and files
+view/.idea
+view/.vscode
+view/*.suo
+view/*.ntvs*
+view/*.njsproj
+view/*.sln
+view/*.sw?
+
+# .gitignore
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env

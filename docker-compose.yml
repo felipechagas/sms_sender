@@ -1,0 +1,52 @@
+version: "2.4"
+
+services:
+  view:
+    build:
+      context: .
+      target: VUE-BUILD
+    command: yarn run build:watch
+    image: felipechagas/lumen:latest-slim-with_vue-fe
+    volumes:
+      - ./view/:/app/:delegated
+      - ./public/view/:/public/view/:delegated
+
+  cron:
+    build: .
+    command: 'cron -f'
+    image: felipechagas/lumen:latest-slim-with_vue
+    networks:
+      - net
+    volumes:
+      - ./:/var/www/html:delegated
+      - ./.env:/var/www/html/.env:delegated,ro
+    depends_on:
+      - db
+
+  app:
+    build: .
+    command: 'sh -c "echo ''Starting app...'' && php -S 0.0.0.0:8080 -t public"'
+    image: felipechagas/lumen:latest-slim-with_vue
+    ports:
+      - 8080:8080
+    networks:
+      - net
+    volumes:
+      - ./:/var/www/html:delegated
+      - ./.env:/var/www/html/.env:delegated,ro
+    depends_on:
+      - view
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-sms_sender}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-mysql}
+    ports:
+      - 3306:3306
+    networks:
+      - net
+
+networks:
+  net:
