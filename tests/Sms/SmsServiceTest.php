@@ -7,7 +7,7 @@ use Twilio\Rest\Client;
 use \Twilio\Rest\Api\V2010\Account\MessageList;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-class SmsTest extends TestCase
+class SmsServiceTest extends TestCase
 {
     use DatabaseTransactions;
     use ApiResponser;
@@ -24,7 +24,7 @@ class SmsTest extends TestCase
 
         $smsService = new SmsService($mockSmsClient, null, null);
 
-        $result = $smsService->send(1, '+17609794553');
+        $result = $smsService->send(1, '+17609794553', 'before');
 
         $this->assertArrayNotHasKey(
             'error',
@@ -34,7 +34,7 @@ class SmsTest extends TestCase
 
     /**
      * /sms/send [POST]
-     * 200
+     * 500
      */
     public function testShouldReturnAnInternalError()
     {
@@ -46,7 +46,7 @@ class SmsTest extends TestCase
 
         $smsService = new SmsService($mockSmsClient, null, null);
 
-        $result = $smsService->send(1, '+17609794553');
+        $result = $smsService->send(1, '+17609794553', 'before');
 
         $this->assertJsonStringEqualsJsonString(
             $result->content(),
