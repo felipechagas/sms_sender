@@ -47,4 +47,20 @@ class SmsTest extends TestCase
         $this->post("sms/send", $data);
         $this->seeStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
+
+    /**
+     * /sms/send [POST]
+     * 404
+     */
+    public function testShouldReturnNotFound()
+    {
+        $data = [
+            'restaurant_id' => 1000000,
+            'phone_number' => getenv("TESTS_PHONE_NUMBER"),
+            'type' => 'before',
+        ];
+
+        $this->post("sms/send", $data);
+        $this->seeStatusCode(Response::HTTP_NOT_FOUND);
+    }
 }
