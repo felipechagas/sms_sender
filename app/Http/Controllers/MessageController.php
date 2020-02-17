@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Message;
 use App\Traits\ApiResponser;
-use App\Repository\MessageRepositoryInterface;
+use App\Repository\MessageRepository;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class MessageController extends Controller
 {
@@ -19,9 +17,9 @@ class MessageController extends Controller
      *
      * @return void
      */
-    public function __construct(MessageRepositoryInterface $message)
+    public function __construct($message = null)
     {
-        $this->message = $message;
+        $this->message = $message === null ? new MessageRepository() : $message;
     }
 
     /**
@@ -50,9 +48,7 @@ class MessageController extends Controller
      */
     public function show($message)
     {
-        $message = Message::findOrFail($message);
-
-        return $this->successResponse($message);
+        return $this->message->findOrFail($message);
     }
 
     /**
@@ -71,9 +67,7 @@ class MessageController extends Controller
 
         $this->validate($request, $rules);
 
-        $message = Message::create($request->all());
-
-        return $this->successResponse($message, Response::HTTP_CREATED);
+        return $this->message->create($request->all());
     }
 
     /**
@@ -85,21 +79,12 @@ class MessageController extends Controller
         $rules = [
             'body' => 'max:255',
             'status' => 'min:4|max:10',
+            'type' => 'min:4|max:10',
         ];
 
         $this->validate($request, $rules);
 
-        $message = Message::findOrFail($message);
-
-        $message->fill($request->all());
-
-        if ($message->isClean()) {
-            return $this->errorResponse('At least one value must change', Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        $message->save();
-
-        return $this->successResponse($message);
+        return $this->message->update($request->all(), $message);
     }
 
     /**
@@ -108,10 +93,6 @@ class MessageController extends Controller
      */
     public function destroy($message)
     {
-        $message = Message::findOrFail($message);
-
-        $message->delete();
-
-        return $this->successResponse($message);
+        return $this->message->delete($message);
     }
 }
