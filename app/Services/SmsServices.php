@@ -6,6 +6,7 @@ use App\Traits\ApiResponser;
 use App\Traits\Formatter;
 use App\Restaurant;
 use App\Message;
+use App\Repository\MessageRepository;
 use Exception;
 use Illuminate\Http\Response;
 use Twilio\Rest\Client;
@@ -17,6 +18,7 @@ class SmsService implements SmsServiceInterface
     private $auth_token;
     private $twilio_number;
     protected $message;
+    protected $messageRepository;
     protected $restaurant;
     protected $client;
 
@@ -28,13 +30,15 @@ class SmsService implements SmsServiceInterface
      *
      * @return void
      */
-    public function __construct($client = null, $message = null, $restaurant = null)
+    public function __construct($client = null, $message = null, $messageRepository = null, $restaurant = null)
     {
         $this->account_sid = getenv("TWILIO_SID");
         $this->auth_token = getenv("TWILIO_AUTH_TOKEN");
         $this->twilio_number = getenv("TWILIO_NUMBER");
 
         $this->message = $message === null ? new Message() : $message;
+
+        $this->messageRepository = $messageRepository === null ? new MessageRepository() : $message;
 
         $this->restaurant = $restaurant === null ? new Restaurant() : $restaurant;
 
@@ -92,21 +96,7 @@ class SmsService implements SmsServiceInterface
      * @return
      */
     public function sendScheduledSms() {
-        $messages = $this->message->
-            join('restaurants', 'messages.restaurant_id', '=', 'restaurants.id')->
-
-            whereRaw(
-                'DATE_ADD(messages.updated_at, INTERVAL restaurants.delivery_time SECOND) > '.
-                'DATE_SUB(CURRENT_TIME(), INTERVAL 15 MINUTE)'
-            )->
-
-            whereRaw(
-                'DATE_ADD(messages.updated_at, INTERVAL restaurants.delivery_time SECOND) < '.
-                'DATE_SUB(CURRENT_TIME(), INTERVAL 0 MINUTE)'
-            )->
-            where("type", "=", "before")->
-            where("status", "=","delivered")->
-            get();
+        $messages = $this->messageRepository->checkScheduledSms();
 
         foreach ($messages as $message) {
             $this->send(
